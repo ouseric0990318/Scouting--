@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0d0d1a">
-<title>FRC 8585 Scout</title>
+<title>FRC 8585 Scout - Cloud</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
 <style>
@@ -69,95 +69,46 @@
 
   /* FORM FIELDS */
   .field { margin-bottom: 14px; }
-  .field:last-child { margin-bottom: 0; }
   .field-label { font-size: 12px; font-weight: 600; color: var(--text2); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
   .field-label span { font-size: 11px; color: var(--text3); text-transform: none; letter-spacing: 0; font-weight: 400; }
 
-  /* META INPUTS */
   .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   input[type=number], input[type=text], select, textarea {
     width: 100%; background: var(--navy3); border: 1px solid var(--border); color: var(--text);
     border-radius: var(--radius-sm); font-family: 'Barlow', sans-serif; font-size: 15px;
     padding: 11px 13px; appearance: none; -webkit-appearance: none; outline: none;
-    transition: border-color 0.15s;
   }
-  input[type=number]:focus, input[type=text]:focus, select:focus, textarea:focus { border-color: var(--red); }
-  input[type=number]::placeholder, input[type=text]::placeholder, textarea::placeholder { color: var(--text3); }
-  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239090b0' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
-  textarea { resize: none; min-height: 80px; line-height: 1.5; }
+  input:focus, select:focus, textarea:focus { border-color: var(--red); }
 
-  /* COUNTER — BIG TOUCH TARGETS */
+  /* COUNTER */
   .counter-row { display: flex; align-items: center; gap: 0; background: var(--navy3); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
-  .cnt-btn { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 300; color: var(--text2); cursor: pointer; user-select: none; transition: background 0.1s, color 0.1s; flex-shrink: 0; }
-  .cnt-btn:active { background: var(--navy4); color: var(--text); }
-  .cnt-btn.minus { border-right: 1px solid var(--border); }
-  .cnt-btn.plus { border-left: 1px solid var(--border); color: var(--red-light); }
-  .cnt-val { flex: 1; text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; color: var(--text); line-height: 52px; }
+  .cnt-btn { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--text2); cursor: pointer; user-select: none; }
+  .cnt-btn:active { background: var(--navy4); }
+  .cnt-val { flex: 1; text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; }
 
   /* TOGGLE GROUP */
   .tog-group { display: flex; gap: 6px; flex-wrap: wrap; }
-  .tog { flex: 1; min-width: 0; padding: 11px 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--navy3); color: var(--text2); font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 600; text-align: center; cursor: pointer; user-select: none; transition: all 0.12s; white-space: nowrap; }
-  .tog:active { transform: scale(0.97); }
-  .tog.on { background: var(--navy4); color: var(--text); border-color: var(--border2); }
+  .tog { flex: 1; min-width: 0; padding: 11px 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--navy3); color: var(--text2); font-size: 13px; font-weight: 600; text-align: center; cursor: pointer; }
+  .tog.on { background: var(--navy4); color: var(--text); }
   .tog.on-yes { background: rgba(34,197,94,0.2); color: #5de89a; border-color: rgba(34,197,94,0.4); }
   .tog.on-no { background: rgba(239,68,68,0.2); color: #ff7b6b; border-color: rgba(239,68,68,0.4); }
-  .tog.on-red { background: rgba(200,16,46,0.25); color: var(--red-light); border-color: rgba(200,16,46,0.5); }
-  .tog.on-blue { background: rgba(26,111,232,0.25); color: #5bb8f5; border-color: rgba(26,111,232,0.5); }
 
-  /* SUBMIT */
-  .submit-btn { width: 100%; padding: 16px; background: var(--red); color: #fff; border: none; border-radius: var(--radius); font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; margin-top: 6px; transition: background 0.15s, transform 0.1s; }
-  .submit-btn:active { background: var(--red-dark); transform: scale(0.99); }
+  /* BUTTONS */
+  .submit-btn { width: 100%; padding: 16px; background: var(--red); color: #fff; border: none; border-radius: var(--radius); font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-top: 6px; }
+  .submit-btn:disabled { background: var(--navy4); color: var(--text3); }
 
   /* DATA LIST */
-  .data-controls { display: flex; gap: 8px; margin-bottom: 10px; }
-  .ctrl-btn { flex: 1; padding: 10px 6px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--navy3); color: var(--text2); font-family: 'Barlow', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-align: center; cursor: pointer; transition: all 0.12s; }
-  .ctrl-btn:active { transform: scale(0.97); }
-  .ctrl-btn.primary { background: var(--red); color: #fff; border-color: var(--red); }
-  .ctrl-btn.danger { color: #ff7b6b; border-color: rgba(239,68,68,0.3); }
   .match-card { background: var(--navy2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-  .match-card:active { background: var(--navy3); }
-  .match-info { flex: 1; }
-  .match-title { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: 0.03em; }
-  .match-sub { font-size: 12px; color: var(--text2); margin-top: 3px; }
   .match-score { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; color: var(--red-light); }
-  .empty { text-align: center; padding: 50px 20px; color: var(--text3); font-size: 14px; line-height: 1.7; }
-
-  /* STATS */
-  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-  .stat-box { background: var(--navy2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; text-align: center; }
-  .stat-num { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; color: var(--text); }
-  .stat-lbl { font-size: 11px; color: var(--text3); margin-top: 3px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
-  .rank-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-  .rank-row:last-child { border-bottom: none; }
-  .rank-num { font-family: 'Barlow Condensed', sans-serif; font-size: 14px; font-weight: 700; color: var(--text3); width: 20px; }
-  .rank-team { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); flex: 1; }
-  .rank-matches { font-size: 11px; color: var(--text3); }
-  .rank-score { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: var(--red-light); }
-  .bar-wrap { flex: 1; height: 4px; background: var(--navy4); border-radius: 2px; }
-  .bar-fill { height: 100%; background: var(--red); border-radius: 2px; }
 
   /* TOAST */
-  .toast { position: fixed; bottom: calc(var(--tab-h) + 12px); left: 50%; transform: translateX(-50%) translateY(10px); background: var(--navy3); border: 1px solid var(--border2); color: var(--text); padding: 11px 20px; border-radius: 30px; font-size: 13px; font-weight: 600; white-space: nowrap; opacity: 0; transition: all 0.25s; pointer-events: none; z-index: 100; }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  .toast.ok { border-color: rgba(34,197,94,0.4); color: #5de89a; }
-  .toast.err { border-color: rgba(239,68,68,0.4); color: #ff7b6b; }
+  .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--navy3); border: 1px solid var(--border2); color: var(--text); padding: 11px 20px; border-radius: 30px; font-size: 13px; opacity: 0; transition: 0.3s; z-index: 100; pointer-events: none; }
+  .toast.show { opacity: 1; }
 
-  /* DETAIL MODAL */
-  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 50; display: none; align-items: flex-end; }
+  /* MODAL */
+  .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 50; display: none; align-items: flex-end; }
   .modal-bg.open { display: flex; }
-  .modal { background: var(--navy2); border-radius: 20px 20px 0 0; border: 1px solid var(--border2); padding: 20px 16px 36px; width: 100%; max-height: 80dvh; overflow-y: auto; }
-  .modal-handle { width: 36px; height: 4px; background: var(--border2); border-radius: 2px; margin: 0 auto 16px; }
-  .modal-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
-  .modal-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-  .modal-row:last-child { border-bottom: none; }
-  .modal-key { color: var(--text2); }
-  .modal-val { font-weight: 600; color: var(--text); }
-  .modal-close { width: 100%; padding: 13px; background: var(--navy3); border: 1px solid var(--border); color: var(--text2); border-radius: var(--radius-sm); font-family: 'Barlow', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 14px; }
-
-  /* FILTER BAR */
-  .filter-bar { display: flex; gap: 8px; margin-bottom: 10px; align-items: center; }
-  .filter-input { flex: 1; background: var(--navy3); border: 1px solid var(--border); color: var(--text); border-radius: var(--radius-sm); font-size: 14px; padding: 9px 12px; font-family: 'Barlow', sans-serif; }
-  .filter-input::placeholder { color: var(--text3); }
+  .modal { background: var(--navy2); border-radius: 20px 20px 0 0; padding: 20px 16px; width: 100%; max-height: 80vh; overflow-y: auto; }
 </style>
 </head>
 <body>
@@ -165,36 +116,25 @@
   <div class="header">
     <div class="header-brand">
       <div class="team-chip">8585</div>
-      <div class="header-title">SCOUT</div>
+      <div class="header-title">SCOUT CLOUD</div>
     </div>
-    <div class="header-count" id="hdr-count">0 筆</div>
+    <div class="header-count" id="hdr-count">載入中...</div>
   </div>
 
   <div class="main" id="main">
-
-    <!-- ===== SCOUT FORM ===== -->
+    <!-- SECTION: SCOUT -->
     <div class="section visible" id="sec-scout">
-
       <div class="card">
         <div class="card-header"><div class="phase-tag info">基本資訊</div></div>
         <div class="input-grid">
-          <div class="field">
-            <div class="field-label">場次</div>
-            <input type="number" id="f-match" placeholder="12" min="1" inputmode="numeric">
-          </div>
-          <div class="field">
-            <div class="field-label">隊伍編號</div>
-            <input type="number" id="f-team" placeholder="5846" inputmode="numeric">
-          </div>
-          <div class="field">
-            <div class="field-label">Scout 姓名</div>
-            <input type="text" id="f-scout" placeholder="你的名字">
-          </div>
+          <div class="field"><div class="field-label">場次</div><input type="number" id="f-match" inputmode="numeric"></div>
+          <div class="field"><div class="field-label">隊伍</div><input type="number" id="f-team" inputmode="numeric"></div>
+          <div class="field"><div class="field-label">Scout</div><input type="text" id="f-scout"></div>
           <div class="field">
             <div class="field-label">聯盟</div>
             <select id="f-alliance">
-              <option value="red">🔴 紅方 Red</option>
-              <option value="blue">🔵 藍方 Blue</option>
+              <option value="red">🔴 Red</option>
+              <option value="blue">🔵 Blue</option>
             </select>
           </div>
         </div>
@@ -203,26 +143,18 @@
       <div class="card">
         <div class="card-header"><div class="phase-tag auto">Auto 自動</div></div>
         <div class="field">
-          <div class="field-label">離開起始區 <span>Leave Starting Zone</span></div>
+          <div class="field-label">離開起始區</div>
           <div class="tog-group">
-            <div class="tog" id="t-leave-y" onclick="yn('leave','y')">✓ 是</div>
-            <div class="tog" id="t-leave-n" onclick="yn('leave','n')">✗ 否</div>
+            <div class="tog" id="t-leave-y">✓ 是</div>
+            <div class="tog" id="t-leave-n">✗ 否</div>
           </div>
         </div>
         <div class="field">
-          <div class="field-label">Speaker 進球 <span>Auto Speaker Notes</span></div>
+          <div class="field-label">Speaker 進球</div>
           <div class="counter-row">
-            <div class="cnt-btn minus" ontouchstart="adj('as',-1)" onclick="adj('as',-1)">−</div>
+            <div class="cnt-btn" id="btn-as-minus">−</div>
             <div class="cnt-val" id="as">0</div>
-            <div class="cnt-btn plus" ontouchstart="adj('as',1)" onclick="adj('as',1)">+</div>
-          </div>
-        </div>
-        <div class="field">
-          <div class="field-label">Amp 進球 <span>Auto Amp Notes</span></div>
-          <div class="counter-row">
-            <div class="cnt-btn minus" onclick="adj('aa',-1)">−</div>
-            <div class="cnt-val" id="aa">0</div>
-            <div class="cnt-btn plus" onclick="adj('aa',1)">+</div>
+            <div class="cnt-btn" id="btn-as-plus">+</div>
           </div>
         </div>
       </div>
@@ -230,327 +162,165 @@
       <div class="card">
         <div class="card-header"><div class="phase-tag teleop">Teleop 操控</div></div>
         <div class="field">
-          <div class="field-label">Speaker 進球 <span>Teleop Speaker Notes</span></div>
+          <div class="field-label">Speaker 進球</div>
           <div class="counter-row">
-            <div class="cnt-btn minus" onclick="adj('ts',-1)">−</div>
+            <div class="cnt-btn" id="btn-ts-minus">−</div>
             <div class="cnt-val" id="ts">0</div>
-            <div class="cnt-btn plus" onclick="adj('ts',1)">+</div>
-          </div>
-        </div>
-        <div class="field">
-          <div class="field-label">Amp 進球 <span>Teleop Amp Notes</span></div>
-          <div class="counter-row">
-            <div class="cnt-btn minus" onclick="adj('ta',-1)">−</div>
-            <div class="cnt-val" id="ta">0</div>
-            <div class="cnt-btn plus" onclick="adj('ta',1)">+</div>
-          </div>
-        </div>
-        <div class="field">
-          <div class="field-label">守備表現 <span>Defense Rating</span></div>
-          <div class="tog-group">
-            <div class="tog on" id="def-0" onclick="setDef(0)">無</div>
-            <div class="tog" id="def-1" onclick="setDef(1)">弱</div>
-            <div class="tog" id="def-2" onclick="setDef(2)">中</div>
-            <div class="tog" id="def-3" onclick="setDef(3)">強</div>
+            <div class="cnt-btn" id="btn-ts-plus">+</div>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-header"><div class="phase-tag end">Endgame 攀爬</div></div>
+        <div class="card-header"><div class="phase-tag end">Endgame</div></div>
         <div class="field">
-          <div class="field-label">攀爬狀態 <span>Climb Status</span></div>
+          <div class="field-label">攀爬狀態</div>
           <div class="tog-group">
-            <div class="tog on" id="cl-none" onclick="setClimb('none')">無</div>
-            <div class="tog" id="cl-park" onclick="setClimb('park')">停泊</div>
-            <div class="tog" id="cl-hang" onclick="setClimb('hang')">掛上</div>
-            <div class="tog" id="cl-trap" onclick="setClimb('trap')">Trap</div>
-          </div>
-        </div>
-        <div class="field">
-          <div class="field-label">機器人故障？ <span>Robot Broke Down</span></div>
-          <div class="tog-group">
-            <div class="tog" id="t-broke-y" onclick="yn('broke','y')">是</div>
-            <div class="tog" id="t-broke-n" onclick="yn('broke','n')">否</div>
+            <div class="tog" id="cl-none">無</div>
+            <div class="tog" id="cl-park">停泊</div>
+            <div class="tog" id="cl-hang">掛上</div>
           </div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header"><div class="phase-tag meta">整體評估</div></div>
-        <div class="field">
-          <div class="field-label">整體評分 <span>1 = 差，5 = 優秀</span></div>
-          <div class="tog-group">
-            <div class="tog" id="r-1" onclick="setRating(1)">1</div>
-            <div class="tog" id="r-2" onclick="setRating(2)">2</div>
-            <div class="tog on" id="r-3" onclick="setRating(3)">3</div>
-            <div class="tog" id="r-4" onclick="setRating(4)">4</div>
-            <div class="tog" id="r-5" onclick="setRating(5)">5</div>
-          </div>
-        </div>
-        <div class="field">
-          <div class="field-label">備注 <span>特殊能力、觀察、缺點</span></div>
-          <textarea id="f-notes" placeholder="例如：防守能力強、進球位置偏右、常掉球..."></textarea>
-        </div>
-      </div>
-
-      <button class="submit-btn" onclick="submit()">儲存此場比賽 →</button>
+      <button class="submit-btn" id="btn-submit">儲存至雲端資料庫</button>
     </div>
 
-    <!-- ===== DATA ===== -->
+    <!-- SECTION: DATA -->
     <div class="section" id="sec-data">
-      <div class="data-controls">
-        <div class="ctrl-btn primary" onclick="exportCSV()">匯出 CSV</div>
-        <div class="ctrl-btn" onclick="exportJSON()">JSON</div>
-        <div class="ctrl-btn danger" onclick="clearAll()">清除</div>
-      </div>
-      <div class="filter-bar">
-        <input class="filter-input" id="filter-input" placeholder="搜尋隊伍編號或場次..." oninput="renderData()" inputmode="numeric">
-      </div>
       <div id="data-list"></div>
     </div>
-
-    <!-- ===== STATS ===== -->
-    <div class="section" id="sec-stats">
-      <div id="stats-content"></div>
-    </div>
-
   </div>
 
   <div class="tabs">
-    <div class="tab active" id="tab-scout" onclick="showSection('scout')">
-      <div class="tab-bar"></div>
-      <div class="tab-icon">📋</div>
-      <div>填寫</div>
-    </div>
-    <div class="tab" id="tab-data" onclick="showSection('data')">
-      <div class="tab-bar"></div>
-      <div class="tab-icon">📦</div>
-      <div>資料</div>
-    </div>
-    <div class="tab" id="tab-stats" onclick="showSection('stats')">
-      <div class="tab-bar"></div>
-      <div class="tab-icon">📊</div>
-      <div>統計</div>
-    </div>
-  </div>
-</div>
-
-<!-- DETAIL MODAL -->
-<div class="modal-bg" id="modal-bg" onclick="closeModal(event)">
-  <div class="modal" id="modal">
-    <div class="modal-handle"></div>
-    <div class="modal-title" id="modal-title"></div>
-    <div id="modal-body"></div>
-    <button class="modal-close" onclick="closeModal()">關閉</button>
+    <div class="tab active" id="tab-scout">📋 填寫</div>
+    <div class="tab" id="tab-data">📦 資料</div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<script>
-// ── STATE ──────────────────────────────────────────────
-const S = { as:0, aa:0, ts:0, ta:0, leave:null, broke:null, climb:'none', defense:0, rating:3 };
+<script type="module">
+  // ── FIREBASE SETUP ──────────────────────────────────────
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// ── COUNTER ────────────────────────────────────────────
-function adj(id, d) {
-  S[id] = Math.max(0, (S[id]||0) + d);
-  document.getElementById(id).textContent = S[id];
-}
-
-// ── BINARY TOGGLE ──────────────────────────────────────
-function yn(key, val) {
-  S[key] = val;
-  const y = document.getElementById('t-'+key+'-y');
-  const n = document.getElementById('t-'+key+'-n');
-  if (val==='y') { y.className='tog on-yes'; n.className='tog'; }
-  else { n.className='tog on-no'; y.className='tog'; }
-}
-
-// ── DEFENSE ────────────────────────────────────────────
-function setDef(v) {
-  S.defense = v;
-  [0,1,2,3].forEach(i => {
-    document.getElementById('def-'+i).className = 'tog' + (i===v ? ' on' : '');
-  });
-}
-
-// ── CLIMB ──────────────────────────────────────────────
-function setClimb(v) {
-  S.climb = v;
-  ['none','park','hang','trap'].forEach(k => {
-    document.getElementById('cl-'+k).className = 'tog' + (k===v ? ' on' : '');
-  });
-}
-
-// ── RATING ─────────────────────────────────────────────
-function setRating(v) {
-  S.rating = v;
-  [1,2,3,4,5].forEach(i => {
-    document.getElementById('r-'+i).className = 'tog' + (i===v ? ' on' : '');
-  });
-}
-
-// ── STORAGE ────────────────────────────────────────────
-function load() { try { return JSON.parse(localStorage.getItem('frc8585')||'[]'); } catch(e){ return []; } }
-function save(r) { localStorage.setItem('frc8585', JSON.stringify(r)); }
-
-// ── SUBMIT ─────────────────────────────────────────────
-function submit() {
-  const match = document.getElementById('f-match').value;
-  const team  = document.getElementById('f-team').value;
-  if (!match || !team) { toast('請填寫場次和隊伍編號', 'err'); return; }
-  const pts = S.as*5 + S.aa*2 + S.ts*2 + S.ta + ({none:0,park:1,hang:3,trap:5}[S.climb]||0);
-  const rec = {
-    id: Date.now(),
-    match: +match, team: +team,
-    scout: document.getElementById('f-scout').value || '—',
-    alliance: document.getElementById('f-alliance').value,
-    auto_leave: S.leave,
-    auto_speaker: S.as, auto_amp: S.aa,
-    tele_speaker: S.ts, tele_amp: S.ta,
-    defense: S.defense, climb: S.climb,
-    broke: S.broke, rating: S.rating,
-    notes: document.getElementById('f-notes').value,
-    est_pts: pts,
-    ts: new Date().toISOString()
+  const firebaseConfig = {
+    apiKey: "AIzaSyAiBIbo-NFFl8dsZh4_vtAg1HvHbxU3Tis",
+    authDomain: "frc8585-scout.firebaseapp.com",
+    projectId: "frc8585-scout",
+    storageBucket: "frc8585-scout.firebasestorage.app",
+    messagingSenderId: "580552304105",
+    appId: "1:580552304105:web:37960d2ca6b9246e2d5778"
   };
-  const recs = load(); recs.push(rec); save(recs);
-  toast('已儲存 Match '+match+' · Team '+team, 'ok');
-  resetForm(); updateHdr();
-}
 
-// ── RESET FORM ─────────────────────────────────────────
-function resetForm() {
-  ['f-match','f-team','f-notes'].forEach(id => document.getElementById(id).value='');
-  ['as','aa','ts','ta'].forEach(id => { S[id]=0; document.getElementById(id).textContent='0'; });
-  S.leave=null; S.broke=null; S.climb='none'; S.defense=0; S.rating=3;
-  ['t-leave-y','t-leave-n','t-broke-y','t-broke-n'].forEach(id => document.getElementById(id).className='tog');
-  setDef(0); setClimb('none'); setRating(3);
-}
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const scoutCol = collection(db, "match_results");
 
-// ── SECTIONS ───────────────────────────────────────────
-function showSection(name) {
-  ['scout','data','stats'].forEach(s => {
-    document.getElementById('sec-'+s).className = 'section'+(s===name?' visible':'');
-    document.getElementById('tab-'+s).className = 'tab'+(s===name?' active':'');
+  // ── STATE ──────────────────────────────────────────────
+  let S = { as:0, ts:0, leave:null, climb:'none' };
+  let all_recs = [];
+
+  // ── UI HELPERS ─────────────────────────────────────────
+  const toast = (msg) => {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'toast show';
+    setTimeout(() => t.className = 'toast', 2000);
+  };
+
+  // ── COUNTERS ───────────────────────────────────────────
+  const updateVal = (id) => document.getElementById(id).textContent = S[id];
+  document.getElementById('btn-as-plus').onclick = () => { S.as++; updateVal('as'); };
+  document.getElementById('btn-as-minus').onclick = () => { S.as = Math.max(0, S.as-1); updateVal('as'); };
+  document.getElementById('btn-ts-plus').onclick = () => { S.ts++; updateVal('ts'); };
+  document.getElementById('btn-ts-minus').onclick = () => { S.ts = Math.max(0, S.ts-1); updateVal('ts'); };
+
+  // ── TOGGLES ───────────────────────────────────────────
+  document.getElementById('t-leave-y').onclick = () => { S.leave = 'y'; renderTogs(); };
+  document.getElementById('t-leave-n').onclick = () => { S.leave = 'n'; renderTogs(); };
+  ['none', 'park', 'hang'].forEach(k => {
+    document.getElementById('cl-'+k).onclick = () => { S.climb = k; renderTogs(); };
   });
-  document.getElementById('main').scrollTop = 0;
-  if (name==='data')  renderData();
-  if (name==='stats') renderStats();
-}
 
-// ── RENDER DATA ────────────────────────────────────────
-function renderData() {
-  const q = (document.getElementById('filter-input').value||'').trim();
-  let recs = load();
-  if (q) recs = recs.filter(r => String(r.team).includes(q)||String(r.match).includes(q));
-  recs = [...recs].sort((a,b)=>b.id-a.id);
-  const el = document.getElementById('data-list');
-  if (!recs.length) { el.innerHTML='<div class="empty">尚無資料<br>填寫比賽後會出現在這裡</div>'; return; }
-  const climbLabel = {none:'無',park:'停泊',hang:'掛上',trap:'Trap'};
-  el.innerHTML = recs.map(r=>`
-    <div class="match-card" onclick="showDetail(${r.id})">
-      <div class="match-info">
-        <div class="match-title">Team ${r.team} &nbsp;·&nbsp; Match ${r.match}</div>
-        <div class="match-sub">${r.alliance==='red'?'🔴 紅方':'🔵 藍方'} · ${climbLabel[r.climb]||'無'} · ⭐${r.rating} · ${r.scout}</div>
+  function renderTogs() {
+    document.getElementById('t-leave-y').className = S.leave === 'y' ? 'tog on-yes' : 'tog';
+    document.getElementById('t-leave-n').className = S.leave === 'n' ? 'tog on-no' : 'tog';
+    ['none', 'park', 'hang'].forEach(k => {
+      document.getElementById('cl-'+k).className = S.climb === k ? 'tog on' : 'tog';
+    });
+  }
+
+  // ── CLOUD SYNC ────────────────────────────────────────
+  onSnapshot(query(scoutCol, orderBy("ts", "desc")), (snap) => {
+    all_recs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    document.getElementById('hdr-count').textContent = all_recs.length + ' 筆雲端數據';
+    renderData();
+  });
+
+  // ── SUBMIT ─────────────────────────────────────────────
+  document.getElementById('btn-submit').onclick = async () => {
+    const m = document.getElementById('f-match').value;
+    const t = document.getElementById('f-team').value;
+    if(!m || !t) return toast("請填寫場次與隊伍");
+
+    const btn = document.getElementById('btn-submit');
+    btn.disabled = true;
+    btn.textContent = "上傳中...";
+
+    const data = {
+      match: +m, team: +t,
+      scout: document.getElementById('f-scout').value || 'Anonymous',
+      alliance: document.getElementById('f-alliance').value,
+      auto_leave: S.leave, auto_speaker: S.as,
+      tele_speaker: S.ts, climb: S.climb,
+      est_pts: S.as*5 + S.ts*2 + (S.climb==='hang'?3:S.climb==='park'?1:0),
+      ts: Date.now()
+    };
+
+    try {
+      await addDoc(scoutCol, data);
+      toast("✅ 成功存入雲端");
+      resetForm();
+    } catch(e) {
+      toast("❌ 錯誤: " + e.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = "儲存至雲端資料庫";
+    }
+  };
+
+  function resetForm() {
+    document.getElementById('f-match').value = '';
+    document.getElementById('f-team').value = '';
+    S = { as:0, ts:0, leave:null, climb:'none' };
+    updateVal('as'); updateVal('ts'); renderTogs();
+  }
+
+  // ── NAVIGATION ────────────────────────────────────────
+  window.showSection = (name) => {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+    document.getElementById('sec-'+name).classList.add('visible');
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-'+name).classList.add('active');
+  };
+
+  document.getElementById('tab-scout').onclick = () => showSection('scout');
+  document.getElementById('tab-data').onclick = () => showSection('data');
+
+  function renderData() {
+    const list = document.getElementById('data-list');
+    if(!all_recs.length) { list.innerHTML = '<div style="text-align:center;padding:40px;color:#5a5a7a;">雲端尚無資料</div>'; return; }
+    list.innerHTML = all_recs.map(r => `
+      <div class="match-card">
+        <div>
+          <div style="font-weight:700;">Team ${r.team} | Match ${r.match}</div>
+          <div style="font-size:12px;color:#9090b0;">${r.scout} · ${r.alliance}</div>
+        </div>
+        <div class="match-score">${r.est_pts}</div>
       </div>
-      <div class="match-score">${r.est_pts}</div>
-    </div>`).join('');
-}
-
-// ── RENDER STATS ───────────────────────────────────────
-function renderStats() {
-  const recs = load();
-  const el = document.getElementById('stats-content');
-  if (!recs.length) { el.innerHTML='<div class="empty">尚無資料</div>'; return; }
-  const teams = {};
-  recs.forEach(r => { if(!teams[r.team]) teams[r.team]=[]; teams[r.team].push(r); });
-  const avg = t => { const a=teams[t].map(r=>r.est_pts); return (a.reduce((x,y)=>x+y,0)/a.length); };
-  const sorted = Object.keys(teams).sort((a,b)=>avg(b)-avg(a));
-  const max = avg(sorted[0]) || 1;
-  const climbCount = (k) => recs.filter(r=>r.climb===k).length;
-  el.innerHTML = `
-    <div class="stat-grid">
-      <div class="stat-box"><div class="stat-num">${recs.length}</div><div class="stat-lbl">記錄場次</div></div>
-      <div class="stat-box"><div class="stat-num">${sorted.length}</div><div class="stat-lbl">隊伍數量</div></div>
-      <div class="stat-box"><div class="stat-num">${climbCount('hang')+climbCount('trap')}</div><div class="stat-lbl">成功攀爬</div></div>
-      <div class="stat-box"><div class="stat-num">${recs.filter(r=>r.broke==='y').length}</div><div class="stat-lbl">機器故障</div></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><div class="phase-tag info">隊伍平均得分</div></div>
-      ${sorted.slice(0,10).map((t,i)=>`
-        <div class="rank-row">
-          <div class="rank-num">${i+1}</div>
-          <div>
-            <div class="rank-team">Team ${t}</div>
-            <div class="rank-matches">${teams[t].length} 場</div>
-          </div>
-          <div class="bar-wrap"><div class="bar-fill" style="width:${Math.round(avg(t)/max*100)}%"></div></div>
-          <div class="rank-score">${avg(t).toFixed(1)}</div>
-        </div>`).join('')}
-    </div>`;
-}
-
-// ── DETAIL MODAL ───────────────────────────────────────
-function showDetail(id) {
-  const recs = load();
-  const r = recs.find(x=>x.id===id); if(!r) return;
-  const climbLabel = {none:'無',park:'停泊 (+1)',hang:'掛上 (+3)',trap:'Trap (+5)'};
-  const defLabel = ['無','弱','中','強'];
-  document.getElementById('modal-title').textContent = `Team ${r.team} — Match ${r.match}`;
-  document.getElementById('modal-body').innerHTML = [
-    ['Scout',r.scout],['聯盟',r.alliance==='red'?'🔴 紅方':'🔵 藍方'],
-    ['Auto 離開起始區',r.auto_leave==='y'?'✓ 是':'✗ 否'],
-    ['Auto Speaker',r.auto_speaker],['Auto Amp',r.auto_amp],
-    ['Teleop Speaker',r.tele_speaker],['Teleop Amp',r.tele_amp],
-    ['守備',defLabel[r.defense]||'無'],
-    ['攀爬',climbLabel[r.climb]||'無'],
-    ['機器故障',r.broke==='y'?'是':'否'],
-    ['整體評分','⭐'.repeat(r.rating)],
-    ['估計得分',r.est_pts+' 分'],
-    ['備注',r.notes||'—'],
-  ].map(([k,v])=>`<div class="modal-row"><div class="modal-key">${k}</div><div class="modal-val">${v}</div></div>`).join('');
-  document.getElementById('modal-bg').className='modal-bg open';
-}
-function closeModal(e) {
-  if (!e || e.target===document.getElementById('modal-bg'))
-    document.getElementById('modal-bg').className='modal-bg';
-}
-
-// ── EXPORT ─────────────────────────────────────────────
-function exportCSV() {
-  const recs = load(); if(!recs.length){ toast('無資料可匯出','err'); return; }
-  const keys = Object.keys(recs[0]);
-  const csv = [keys.join(','), ...recs.map(r=>keys.map(k=>JSON.stringify(r[k]??'')).join(','))].join('\n');
-  dl('frc8585_scout_'+Date.now()+'.csv', csv, 'text/csv'); toast('CSV 已下載','ok');
-}
-function exportJSON() {
-  const recs = load(); if(!recs.length){ toast('無資料可匯出','err'); return; }
-  dl('frc8585_scout_'+Date.now()+'.json', JSON.stringify(recs,null,2),'application/json'); toast('JSON 已下載','ok');
-}
-function dl(name, data, type) {
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([data],{type}));
-  a.download = name; a.click();
-}
-function clearAll() {
-  if(!confirm('確定清除所有資料？此操作無法復原！')) return;
-  localStorage.removeItem('frc8585');
-  renderData(); updateHdr(); toast('資料已清除');
-}
-
-// ── UTILS ──────────────────────────────────────────────
-function updateHdr() { document.getElementById('hdr-count').textContent = load().length + ' 筆'; }
-let _toast;
-function toast(msg, type='') {
-  clearTimeout(_toast);
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.className = 'toast show' + (type?' '+type:'');
-  _toast = setTimeout(()=>t.className='toast', 2500);
-}
-
-updateHdr();
+    `).join('');
+  }
 </script>
 </body>
 </html>
