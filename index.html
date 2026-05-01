@@ -3,21 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>FRC 8585 - Ultimate Sync</title>
+<title>FRC 8585 - Final Sync Check</title>
 <style>
   :root { --red: #c8102e; --navy: #0d0d1a; --text: #f0f0f8; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--navy); color: var(--text); font-family: sans-serif; display: flex; flex-direction: column; height: 100dvh; }
-  .header { background: #151528; padding: 15px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; }
+  .header { background: #151528; padding: 15px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; }
   .main { flex: 1; overflow-y: auto; padding: 15px; }
   .card { background: #151528; padding: 15px; border-radius: 12px; border: 1px solid #333; margin-bottom: 10px; }
-  input { width: 100%; padding: 12px; margin: 8px 0; background: #1e1e38; color: white; border: 1px solid #444; border-radius: 8px; }
+  input { width: 100%; padding: 12px; margin: 8px 0; background: #1e1e38; color: white; border: 1px solid #444; border-radius: 8px; outline: none; }
   .btn { width: 100%; padding: 15px; background: var(--red); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-  .btn:disabled { opacity: 0.5; }
   .data-item { background: #232343; padding: 12px; border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--red); }
-  .tabs { display: flex; background: #151528; border-top: 1px solid #333; }
-  .tab { flex: 1; padding: 20px; text-align: center; color: #5a5a7a; cursor: pointer; }
-  .tab.active { color: var(--red); font-weight: bold; }
+  .tabs { display: flex; background: #151528; border-top: 1px solid #333; height: 60px; }
+  .tab { flex: 1; display: flex; align-items: center; justify-content: center; color: #5a5a7a; cursor: pointer; }
+  .tab.active { color: var(--red); font-weight: bold; border-top: 2px solid var(--red); }
   .section { display: none; }
   .section.visible { display: block; }
 </style>
@@ -25,32 +24,41 @@
 <body>
 
 <div class="header">
-  <div style="font-weight:bold;">FRC 8585 SYNC</div>
-  <div id="hdr-status" style="font-size: 12px; color: #9090b0;">連線中...</div>
+  <div style="font-weight:bold;">8585 SYNC STATUS</div>
+  <div id="hdr-status" style="font-size: 11px; color: #9090b0; background: #222; padding: 4px 8px; border-radius: 4px;">讀取中...</div>
 </div>
 
 <div class="main">
   <div class="section visible" id="sec-scout">
     <div class="card">
-      <input type="number" id="f-match" placeholder="Match #">
-      <input type="number" id="f-team" placeholder="Team #">
-      <input type="text" id="f-scout" placeholder="Your Name">
-      <button class="btn" id="btn-submit">傳送並同步</button>
+      <input type="number" id="f-match" placeholder="Match # (場次)" inputmode="numeric">
+      <input type="number" id="f-team" placeholder="Team # (隊伍)" inputmode="numeric">
+      <input type="text" id="f-scout" placeholder="Scouter Name (姓名)">
+      <button class="btn" id="btn-submit">傳送至雲端 (全裝置同步)</button>
     </div>
   </div>
   <div class="section" id="sec-data">
-    <div id="data-list">讀取中...</div>
+    <div id="data-list">正在強制同步雲端數據...</div>
   </div>
 </div>
 
 <div class="tabs">
-  <div class="tab active" id="tab-scout">輸入</div>
-  <div class="tab" id="tab-data">所有數據</div>
+  <div class="tab active" id="tab-scout">填寫</div>
+  <div class="tab" id="tab-data">總覽</div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { 
+    initializeFirestore, 
+    collection, 
+    addDoc, 
+    onSnapshot, 
+    query, 
+    orderBy,
+    terminate,
+    clearIndexedDbPersistence
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAiBIbo-NFFl8dsZh4_vtAg1HvHbxU3Tis",
@@ -62,20 +70,21 @@
   };
 
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  // 嘗試啟動離線快取
-  enableIndexedDbPersistence(db).catch(() => {});
+  
+  // 【強制修正】關閉所有本地快取，確保每一台裝置看到的都是雲端真實資料
+  const db = initializeFirestore(app, {
+    experimentalForceLongPolling: true
+  });
 
   const scoutCol = collection(db, "match_results");
 
-  // 【核心】即時監聽：這段代碼會確保「只要雲端有變動，畫面就更新」
+  // 監聽雲端變化
   onSnapshot(query(scoutCol, orderBy("ts", "desc")), (snap) => {
-    document.getElementById('hdr-status').textContent = `雲端連線正常 (${snap.size} 筆)`;
+    document.getElementById('hdr-status').textContent = `雲端同步中: ${snap.size} 筆`;
     const list = document.getElementById('data-list');
     
     if (snap.empty) {
-      list.innerHTML = "雲端目前沒有任何資料。";
+      list.innerHTML = "<div style='text-align:center; padding:20px;'>雲端資料庫目前是空的</div>";
       return;
     }
 
@@ -83,51 +92,50 @@
       const d = doc.data();
       return `<div class="data-item">
         <strong>Team ${d.team}</strong> (Match ${d.match})<br>
-        <small style="color:#aaa;">By: ${d.scout} @ ${new Date(d.ts).toLocaleTimeString()}</small>
+        <small style="color:#aaa;">Scout: ${d.scout} @ ${new Date(d.ts).toLocaleTimeString()}</small>
       </div>`;
     }).join('');
-  }, (err) => {
-    document.getElementById('hdr-status').textContent = "連線出錯！";
-    alert("Firebase 錯誤: " + err.message);
   });
 
   document.getElementById('btn-submit').onclick = async function() {
     const m = document.getElementById('f-match').value;
     const t = document.getElementById('f-team').value;
-    if(!m || !t) return alert("請填寫內容");
+    if(!m || !t) return alert("請填寫場次與隊伍");
 
     this.disabled = true;
-    this.textContent = "上傳中...";
+    this.textContent = "正在強制寫入雲端...";
 
     try {
-      // 這次我們用 await 確保資料真的有發出去
       await addDoc(scoutCol, {
         match: Number(m),
         team: Number(t),
         scout: document.getElementById('f-scout').value || '匿名',
         ts: Date.now()
       });
-      alert("✅ 上傳成功！");
+      alert("✅ 寫入成功！其他裝置應會立即更新。");
       document.getElementById('f-match').value = "";
       document.getElementById('f-team').value = "";
     } catch (e) {
-      alert("❌ 上傳失敗: " + e.message);
+      alert("❌ 儲存失敗：" + e.message);
     } finally {
       this.disabled = false;
-      this.textContent = "傳送並同步";
+      this.textContent = "傳送至雲端 (全裝置同步)";
     }
   };
 
-  // 頁面切換
-  const tabs = ['scout', 'data'];
-  tabs.forEach(t => {
-    document.getElementById('tab-' + t).onclick = () => {
-      tabs.forEach(x => {
-        document.getElementById('sec-' + x).className = 'section' + (x===t?' visible':'');
-        document.getElementById('tab-' + x).className = 'tab' + (x===t?' active':'');
-      });
-    };
-  });
+  // 分頁切換
+  document.getElementById('tab-scout').onclick = () => {
+    document.getElementById('sec-scout').className = 'section visible';
+    document.getElementById('sec-data').className = 'section';
+    document.getElementById('tab-scout').className = 'tab active';
+    document.getElementById('tab-data').className = 'tab';
+  };
+  document.getElementById('tab-data').onclick = () => {
+    document.getElementById('sec-scout').className = 'section';
+    document.getElementById('sec-data').className = 'section visible';
+    document.getElementById('tab-scout').className = 'tab';
+    document.getElementById('tab-data').className = 'tab active';
+  };
 </script>
 </body>
 </html>
