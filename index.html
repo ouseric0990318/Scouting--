@@ -3,22 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>FRC 8585 - Final Sync Version</title>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&display=swap" rel="stylesheet">
+<title>FRC 8585 - Ultimate Sync</title>
 <style>
-  :root { --red: #c8102e; --navy: #0d0d1a; --navy2: #151528; --text: #f0f0f8; --border: rgba(255,255,255,0.1); }
+  :root { --red: #c8102e; --navy: #0d0d1a; --text: #f0f0f8; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--navy); color: var(--text); font-family: 'Barlow', sans-serif; height: 100dvh; display: flex; flex-direction: column; }
-  .header { background: var(--navy2); padding: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  body { background: var(--navy); color: var(--text); font-family: sans-serif; display: flex; flex-direction: column; height: 100dvh; }
+  .header { background: #151528; padding: 15px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; }
   .main { flex: 1; overflow-y: auto; padding: 15px; }
-  .card { background: var(--navy2); padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--border); }
-  input { width: 100%; padding: 12px; background: #1e1e38; color: white; border: 1px solid var(--border); border-radius: 8px; margin: 8px 0; outline: none; }
-  .btn { width: 100%; padding: 15px; background: var(--red); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; }
-  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .data-item { background: #232343; padding: 12px; border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--red); text-align: left; }
-  .tabs { display: flex; background: var(--navy2); border-top: 1px solid var(--border); height: 65px; }
-  .tab { flex: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #5a5a7a; font-weight: bold; }
-  .tab.active { color: var(--red); background: rgba(200,16,46,0.05); }
+  .card { background: #151528; padding: 15px; border-radius: 12px; border: 1px solid #333; margin-bottom: 10px; }
+  input { width: 100%; padding: 12px; margin: 8px 0; background: #1e1e38; color: white; border: 1px solid #444; border-radius: 8px; }
+  .btn { width: 100%; padding: 15px; background: var(--red); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+  .btn:disabled { opacity: 0.5; }
+  .data-item { background: #232343; padding: 12px; border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--red); }
+  .tabs { display: flex; background: #151528; border-top: 1px solid #333; }
+  .tab { flex: 1; padding: 20px; text-align: center; color: #5a5a7a; cursor: pointer; }
+  .tab.active { color: var(--red); font-weight: bold; }
   .section { display: none; }
   .section.visible { display: block; }
 </style>
@@ -26,138 +25,109 @@
 <body>
 
 <div class="header">
-  <div style="font-weight:bold; letter-spacing: 1px;">FRC 8585 <span style="color:var(--red);">SCOUT</span></div>
-  <div id="hdr-count" style="font-size: 12px; color: #9090b0; background: #1e1e38; padding: 4px 10px; border-radius: 20px;">連線中...</div>
+  <div style="font-weight:bold;">FRC 8585 SYNC</div>
+  <div id="hdr-status" style="font-size: 12px; color: #9090b0;">連線中...</div>
 </div>
 
 <div class="main">
-  <!-- 填寫頁面 -->
   <div class="section visible" id="sec-scout">
     <div class="card">
-      <div style="font-size: 12px; color: #9090b0; margin-bottom: 5px;">MATCH INFORMATION</div>
-      <input type="number" id="f-match" placeholder="場次 Match #" inputmode="numeric">
-      <input type="number" id="f-team" placeholder="隊伍 Team #" inputmode="numeric">
-      <input type="text" id="f-scout" placeholder="Scouter 姓名">
-      <button class="btn" id="btn-submit">儲存並同步至所有裝置</button>
+      <input type="number" id="f-match" placeholder="Match #">
+      <input type="number" id="f-team" placeholder="Team #">
+      <input type="text" id="f-scout" placeholder="Your Name">
+      <button class="btn" id="btn-submit">傳送並同步</button>
     </div>
   </div>
-
-  <!-- 資料列表頁面 -->
   <div class="section" id="sec-data">
-    <div id="data-list">正在同步雲端資料庫...</div>
+    <div id="data-list">讀取中...</div>
   </div>
 </div>
 
 <div class="tabs">
-  <div class="tab active" id="tab-scout">📝 填寫</div>
-  <div class="tab" id="tab-data">📦 數據</div>
+  <div class="tab active" id="tab-scout">輸入</div>
+  <div class="tab" id="tab-data">所有數據</div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { 
-    initializeFirestore, 
-    collection, 
-    addDoc, 
-    onSnapshot, 
-    query, 
-    orderBy, 
-    enableIndexedDbPersistence 
-  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  // 【核心連線配置】
   const firebaseConfig = {
     apiKey: "AIzaSyAiBIbo-NFFl8dsZh4_vtAg1HvHbxU3Tis",
     authDomain: "frc8585-scout.firebaseapp.com",
     projectId: "frc8585-scout",
     storageBucket: "frc8585-scout.firebasestorage.app",
     messagingSenderId: "580552304105",
-    appId: "1:580552304105:web:37960d2ca6b9246e2d5778",
-    // 強制加上 databaseURL 確保所有裝置連到同一個 Realtime/Firestore 映射路徑
-    databaseURL: "https://frc8585-scout-default-rtdb.asia-east1.firebasedatabase.app"
+    appId: "1:580552304105:web:37960d2ca6b9246e2d5778"
   };
 
   const app = initializeApp(firebaseConfig);
-  
-  // 【強制初始化設定】指定 "(default)" 資料庫與強制長輪詢模式
-  const db = initializeFirestore(app, {
-    experimentalForceLongPolling: true,
-    useFetchStreams: false
-  }, "(default)");
+  const db = getFirestore(app);
 
-  // 啟動本地快取
+  // 嘗試啟動離線快取
   enableIndexedDbPersistence(db).catch(() => {});
 
   const scoutCol = collection(db, "match_results");
 
-  // 【即時監聽】確保只要資料庫一動，所有人的手機都會跟著動
+  // 【核心】即時監聽：這段代碼會確保「只要雲端有變動，畫面就更新」
   onSnapshot(query(scoutCol, orderBy("ts", "desc")), (snap) => {
-    document.getElementById('hdr-count').textContent = `雲端數據: ${snap.size} 筆`;
+    document.getElementById('hdr-status').textContent = `雲端連線正常 (${snap.size} 筆)`;
     const list = document.getElementById('data-list');
     
     if (snap.empty) {
-      list.innerHTML = `<div style="padding:20px; color:#5a5a7a;">目前雲端尚無資料</div>`;
+      list.innerHTML = "雲端目前沒有任何資料。";
       return;
     }
 
     list.innerHTML = snap.docs.map(doc => {
       const d = doc.data();
       return `<div class="data-item">
-        <div style="font-weight:bold; font-size:18px;">Match ${d.match} - <span style="color:var(--red);">Team ${d.team}</span></div>
-        <div style="font-size:12px; color:#9090b0; margin-top:4px;">
-          Scouter: ${d.scout} | 時間: ${new Date(d.ts).toLocaleTimeString()}
-        </div>
+        <strong>Team ${d.team}</strong> (Match ${d.match})<br>
+        <small style="color:#aaa;">By: ${d.scout} @ ${new Date(d.ts).toLocaleTimeString()}</small>
       </div>`;
     }).join('');
   }, (err) => {
-    console.error("同步失敗：", err);
-    document.getElementById('data-list').innerHTML = `<div style="color:red;">連線失敗，請檢查網路或權限。</div>`;
+    document.getElementById('hdr-status').textContent = "連線出錯！";
+    alert("Firebase 錯誤: " + err.message);
   });
 
-  // 提交邏輯
-  document.getElementById('btn-submit').onclick = function() {
+  document.getElementById('btn-submit').onclick = async function() {
     const m = document.getElementById('f-match').value;
     const t = document.getElementById('f-team').value;
-    const s = document.getElementById('f-scout').value;
-    
-    if(!m || !t) { alert("請填寫場次與隊伍！"); return; }
+    if(!m || !t) return alert("請填寫內容");
 
-    const btn = this;
-    btn.disabled = true;
-    btn.textContent = "上傳並同步中...";
+    this.disabled = true;
+    this.textContent = "上傳中...";
 
-    // 建立要上傳的物件
-    const data = {
-      match: Number(m),
-      team: Number(t),
-      scout: s || '匿名',
-      ts: Date.now()
-    };
-
-    // 發送資料 (不使用 await 避免卡死)
-    addDoc(scoutCol, data).catch(e => console.error("上傳錯誤", e));
-
-    // 強制重置介面
-    setTimeout(() => {
+    try {
+      // 這次我們用 await 確保資料真的有發出去
+      await addDoc(scoutCol, {
+        match: Number(m),
+        team: Number(t),
+        scout: document.getElementById('f-scout').value || '匿名',
+        ts: Date.now()
+      });
+      alert("✅ 上傳成功！");
       document.getElementById('f-match').value = "";
       document.getElementById('f-team').value = "";
-      btn.disabled = false;
-      btn.textContent = "儲存並同步至所有裝置";
-      alert("✅ 資料已發送！請檢查「數據」分頁。");
-    }, 600);
+    } catch (e) {
+      alert("❌ 上傳失敗: " + e.message);
+    } finally {
+      this.disabled = false;
+      this.textContent = "傳送並同步";
+    }
   };
 
-  // 分頁切換邏輯
-  function switchTab(target) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('sec-' + target).classList.add('visible');
-    document.getElementById('tab-' + target).classList.add('active');
-  }
-
-  document.getElementById('tab-scout').onclick = () => switchTab('scout');
-  document.getElementById('tab-data').onclick = () => switchTab('data');
-
+  // 頁面切換
+  const tabs = ['scout', 'data'];
+  tabs.forEach(t => {
+    document.getElementById('tab-' + t).onclick = () => {
+      tabs.forEach(x => {
+        document.getElementById('sec-' + x).className = 'section' + (x===t?' visible':'');
+        document.getElementById('tab-' + x).className = 'tab' + (x===t?' active':'');
+      });
+    };
+  });
 </script>
 </body>
 </html>
