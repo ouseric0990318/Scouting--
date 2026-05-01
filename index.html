@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0d0d1a">
-<title>FRC 8585 Scout - Cloud</title>
+<title>FRC 8585 Scout - Full Version</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
 <style>
@@ -18,169 +18,85 @@
     --navy2: #151528;
     --navy3: #1e1e38;
     --navy4: #272748;
-    --blue-team: #1a6fe8;
     --text: #f0f0f8;
     --text2: #9090b0;
     --text3: #5a5a7a;
     --border: rgba(255,255,255,0.08);
     --border2: rgba(255,255,255,0.14);
-    --success: #22c55e;
-    --warning: #f59e0b;
     --radius: 14px;
     --radius-sm: 9px;
-    --tab-h: 64px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; overflow: hidden; background: var(--navy); color: var(--text); font-family: 'Barlow', sans-serif; }
 
-  /* LAYOUT */
-  #app { display: flex; flex-direction: column; height: 100%; height: 100dvh; }
+  #app { display: flex; flex-direction: column; height: 100dvh; }
   .header { background: var(--navy2); border-bottom: 1px solid var(--border); padding: 0 16px; height: 56px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
-  .header-brand { display: flex; align-items: center; gap: 10px; }
-  .team-chip { background: var(--red); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.03em; padding: 4px 10px; border-radius: 7px; }
-  .header-title { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 0.04em; color: var(--text); }
+  .team-chip { background: var(--red); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; padding: 4px 10px; border-radius: 7px; }
+  .header-title { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); }
   .header-count { font-size: 12px; color: var(--text3); background: var(--navy3); padding: 4px 9px; border-radius: 20px; border: 1px solid var(--border); }
 
-  /* SCROLL AREA */
-  .main { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding: 12px 12px 80px; }
-  .main::-webkit-scrollbar { display: none; }
-
-  /* BOTTOM TABS */
-  .tabs { height: var(--tab-h); background: var(--navy2); border-top: 1px solid var(--border); display: flex; flex-shrink: 0; position: relative; z-index: 10; }
-  .tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: var(--text3); font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; transition: color 0.15s; position: relative; user-select: none; }
-  .tab.active { color: var(--red-light); }
-  .tab-icon { font-size: 20px; line-height: 1; }
-  .tab-bar { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 28px; height: 2px; background: var(--red-light); border-radius: 0 0 2px 2px; opacity: 0; transition: opacity 0.15s; }
-  .tab.active .tab-bar { opacity: 1; }
-
-  /* SECTIONS */
-  .section { display: none; }
-  .section.visible { display: block; }
-
-  /* CARDS */
-  .card { background: var(--navy2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 14px; margin-bottom: 10px; }
-  .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
-  .phase-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: 5px; }
-  .phase-tag.auto { background: rgba(52,152,219,0.2); color: #5bb8f5; }
-  .phase-tag.teleop { background: rgba(46,204,113,0.2); color: #5de89a; }
-  .phase-tag.end { background: rgba(231,76,60,0.2); color: #ff7b6b; }
-  .phase-tag.meta { background: rgba(243,156,18,0.2); color: #ffc048; }
-  .phase-tag.info { background: rgba(200,16,46,0.15); color: var(--red-light); }
-
-  /* FORM FIELDS */
-  .field { margin-bottom: 14px; }
-  .field-label { font-size: 12px; font-weight: 600; color: var(--text2); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+  .main { flex: 1; overflow-y: auto; padding: 12px 12px 80px; }
+  .card { background: var(--navy2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; }
+  .field-label { font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 6px; text-transform: uppercase; }
   
-  .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  input[type=number], input[type=text], select, textarea {
+  input, select {
     width: 100%; background: var(--navy3); border: 1px solid var(--border); color: var(--text);
-    border-radius: var(--radius-sm); font-family: 'Barlow', sans-serif; font-size: 15px;
-    padding: 11px 13px; appearance: none; -webkit-appearance: none; outline: none;
+    border-radius: var(--radius-sm); font-size: 15px; padding: 11px 13px; outline: none; margin-bottom: 10px;
   }
-  input:focus, select:focus, textarea:focus { border-color: var(--red); }
 
-  /* COUNTER */
-  .counter-row { display: flex; align-items: center; gap: 0; background: var(--navy3); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; }
-  .cnt-btn { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--text2); cursor: pointer; user-select: none; }
-  .cnt-btn:active { background: var(--navy4); }
+  .counter-row { display: flex; align-items: center; background: var(--navy3); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 10px; }
+  .cnt-btn { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--text2); cursor: pointer; }
   .cnt-val { flex: 1; text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; }
 
-  /* TOGGLE GROUP */
-  .tog-group { display: flex; gap: 6px; flex-wrap: wrap; }
-  .tog { flex: 1; min-width: 0; padding: 11px 8px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--navy3); color: var(--text2); font-size: 13px; font-weight: 600; text-align: center; cursor: pointer; }
-  .tog.on { background: var(--navy4); color: var(--text); }
-  .tog.on-yes { background: rgba(34,197,94,0.2); color: #5de89a; border-color: rgba(34,197,94,0.4); }
-  .tog.on-no { background: rgba(239,68,68,0.2); color: #ff7b6b; border-color: rgba(239,68,68,0.4); }
+  .submit-btn { width: 100%; padding: 16px; background: var(--red); color: #fff; border: none; border-radius: var(--radius); font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
+  .submit-btn:disabled { background: var(--navy4); opacity: 0.6; }
 
-  /* BUTTONS */
-  .submit-btn { width: 100%; padding: 16px; background: var(--red); color: #fff; border: none; border-radius: var(--radius); font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; cursor: pointer; margin-top: 6px; }
-  .submit-btn:disabled { background: var(--navy4); color: var(--text3); }
+  .tabs { height: 64px; background: var(--navy2); border-top: 1px solid var(--border); display: flex; }
+  .tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text3); font-size: 10px; font-weight: 600; }
+  .tab.active { color: var(--red-light); }
 
-  /* DATA LIST */
-  .match-card { background: var(--navy2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-  .match-score { font-family: 'Barlow Condensed', sans-serif; font-size: 26px; font-weight: 700; color: var(--red-light); }
-
-  /* TOAST */
-  .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--navy3); border: 1px solid var(--border2); color: var(--text); padding: 11px 20px; border-radius: 30px; font-size: 13px; opacity: 0; transition: 0.3s; z-index: 100; pointer-events: none; }
+  .section { display: none; }
+  .section.visible { display: block; }
+  .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--navy3); color: var(--text); padding: 10px 20px; border-radius: 30px; opacity: 0; transition: 0.3s; z-index: 100; }
   .toast.show { opacity: 1; }
 </style>
 </head>
 <body>
+
 <div id="app">
   <div class="header">
     <div class="header-brand">
-      <div class="team-chip">8585</div>
-      <div class="header-title">SCOUT CLOUD</div>
+      <span class="team-chip">8585</span>
+      <span class="header-title">FRC SCOUT</span>
     </div>
-    <div class="header-count" id="hdr-count">載入中...</div>
+    <div class="header-count" id="hdr-count">偵測連線中...</div>
   </div>
 
-  <div class="main" id="main">
+  <div class="main">
     <div class="section visible" id="sec-scout">
       <div class="card">
-        <div class="card-header"><div class="phase-tag info">基本資訊</div></div>
-        <div class="input-grid">
-          <div class="field"><div class="field-label">場次</div><input type="number" id="f-match" inputmode="numeric"></div>
-          <div class="field"><div class="field-label">隊伍</div><input type="number" id="f-team" inputmode="numeric"></div>
-          <div class="field"><div class="field-label">Scout</div><input type="text" id="f-scout"></div>
-          <div class="field">
-            <div class="field-label">聯盟</div>
-            <select id="f-alliance">
-              <option value="red">🔴 Red</option>
-              <option value="blue">🔵 Blue</option>
-            </select>
-          </div>
-        </div>
+        <div class="field-label">場次 Match #</div>
+        <input type="number" id="f-match" inputmode="numeric">
+        <div class="field-label">隊伍 Team #</div>
+        <input type="number" id="f-team" inputmode="numeric">
+        <div class="field-label">Scout 姓名</div>
+        <input type="text" id="f-scout">
       </div>
 
       <div class="card">
-        <div class="card-header"><div class="phase-tag auto">Auto 自動</div></div>
-        <div class="field">
-          <div class="field-label">離開起始區</div>
-          <div class="tog-group">
-            <div class="tog" id="t-leave-y">✓ 是</div>
-            <div class="tog" id="t-leave-n">✗ 否</div>
-          </div>
-        </div>
-        <div class="field">
-          <div class="field-label">Speaker 進球</div>
-          <div class="counter-row">
-            <div class="cnt-btn" id="btn-as-minus">−</div>
-            <div class="cnt-val" id="as">0</div>
-            <div class="cnt-btn" id="btn-as-plus">+</div>
-          </div>
+        <div class="field-label">Speaker 進球 (Auto)</div>
+        <div class="counter-row">
+          <div class="cnt-btn" id="as-minus">−</div>
+          <div class="cnt-val" id="as-val">0</div>
+          <div class="cnt-btn" id="as-plus">+</div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="card-header"><div class="phase-tag teleop">Teleop 操控</div></div>
-        <div class="field">
-          <div class="field-label">Speaker 進球</div>
-          <div class="counter-row">
-            <div class="cnt-btn" id="btn-ts-minus">−</div>
-            <div class="cnt-val" id="ts">0</div>
-            <div class="cnt-btn" id="btn-ts-plus">+</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header"><div class="phase-tag end">Endgame</div></div>
-        <div class="field">
-          <div class="field-label">攀爬狀態</div>
-          <div class="tog-group">
-            <div class="tog" id="cl-none">無</div>
-            <div class="tog" id="cl-park">停泊</div>
-            <div class="tog" id="cl-hang">掛上</div>
-          </div>
-        </div>
-      </div>
-
-      <button class="submit-btn" id="btn-submit">儲存至雲端資料庫</button>
+      <button class="submit-btn" id="btn-submit">儲存至雲端</button>
     </div>
 
     <div class="section" id="sec-data">
-      <div id="data-list"></div>
+      <div id="data-list" style="padding: 10px; text-align: center; color: var(--text3);">尚未同步資料</div>
     </div>
   </div>
 
@@ -200,7 +116,8 @@
     addDoc, 
     onSnapshot, 
     query, 
-    orderBy 
+    orderBy,
+    enableIndexedDbPersistence 
   } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -213,115 +130,90 @@
   };
 
   const app = initializeApp(firebaseConfig);
+  const db = initializeFirestore(app, { experimentalForceLongPolling: true }, "(default)");
 
-  // 【核心修正】強制指定連線模式，避免 SDK 跑去預設區域(US)找資料庫
-  const db = initializeFirestore(app, {
-    experimentalForceLongPolling: true,
-  },"(default)");
+  // 啟動離線持久化（非常重要：解決網路卡死）
+  enableIndexedDbPersistence(db).catch((err) => console.log("Persistence failed:", err.code));
 
   const scoutCol = collection(db, "match_results");
+  let asCount = 0;
 
-  let S = { as:0, ts:0, leave:null, climb:'none' };
-  let all_recs = [];
-
-  const toast = (msg) => {
+  // UI 控制
+  const showToast = (msg) => {
     const t = document.getElementById('toast');
     t.textContent = msg; t.className = 'toast show';
     setTimeout(() => t.className = 'toast', 2000);
   };
 
-  const updateVal = (id) => document.getElementById(id).textContent = S[id];
-  document.getElementById('btn-as-plus').onclick = () => { S.as++; updateVal('as'); };
-  document.getElementById('btn-as-minus').onclick = () => { S.as = Math.max(0, S.as-1); updateVal('as'); };
-  document.getElementById('btn-ts-plus').onclick = () => { S.ts++; updateVal('ts'); };
-  document.getElementById('btn-ts-minus').onclick = () => { S.ts = Math.max(0, S.ts-1); updateVal('ts'); };
+  document.getElementById('as-plus').onclick = () => { asCount++; document.getElementById('as-val').textContent = asCount; };
+  document.getElementById('as-minus').onclick = () => { asCount = Math.max(0, asCount-1); document.getElementById('as-val').textContent = asCount; };
 
-  document.getElementById('t-leave-y').onclick = () => { S.leave = 'y'; renderTogs(); };
-  document.getElementById('t-leave-n').onclick = () => { S.leave = 'n'; renderTogs(); };
-  ['none', 'park', 'hang'].forEach(k => {
-    document.getElementById('cl-'+k).onclick = () => { S.climb = k; renderTogs(); };
-  });
-
-  function renderTogs() {
-    document.getElementById('t-leave-y').className = S.leave === 'y' ? 'tog on-yes' : 'tog';
-    document.getElementById('t-leave-n').className = S.leave === 'n' ? 'tog on-no' : 'tog';
-    ['none', 'park', 'hang'].forEach(k => {
-      document.getElementById('cl-'+k).className = S.climb === k ? 'tog on' : 'tog';
-    });
-  }
-
+  // 監聽雲端數據
   onSnapshot(query(scoutCol, orderBy("ts", "desc")), (snap) => {
-    all_recs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    document.getElementById('hdr-count').textContent = all_recs.length + ' 筆雲端數據';
-    renderData();
+    document.getElementById('hdr-count').textContent = snap.size + ' 筆雲端數據';
+    const list = document.getElementById('data-list');
+    if (snap.empty) {
+      list.innerHTML = "雲端目前無資料";
+    } else {
+      list.innerHTML = snap.docs.map(doc => {
+        const d = doc.data();
+        return `<div style="background:var(--navy2); margin-bottom:8px; padding:10px; border-radius:8px; text-align:left; border:1px solid var(--border);">
+          <strong>Team ${d.team}</strong> (Match ${d.match})<br>
+          <small style="color:var(--text3)">Scout: ${d.scout} | Auto: ${d.auto_speaker}</small>
+        </div>`;
+      }).join('');
+    }
   }, (err) => {
-    console.error("Firebase 連線失敗:", err);
+    document.getElementById('hdr-count').textContent = "連線受阻";
+    console.error(err);
   });
 
-  document.getElementById('btn-submit').onclick = async () => {
+  // 提交邏輯（核心修正：非同步不等待）
+  document.getElementById('btn-submit').onclick = function() {
     const m = document.getElementById('f-match').value;
     const t = document.getElementById('f-team').value;
-    if(!m || !t) return toast("請填寫場次與隊伍");
+    if(!m || !t) return showToast("請填寫場次與隊伍");
 
-    const btn = document.getElementById('btn-submit');
+    const btn = this;
     btn.disabled = true;
-    btn.textContent = "上傳中...";
+    btn.textContent = "傳送中...";
 
     const data = {
-      match: +m, team: +t,
+      match: Number(m),
+      team: Number(t),
       scout: document.getElementById('f-scout').value || 'Anonymous',
-      alliance: document.getElementById('f-alliance').value,
-      auto_leave: S.leave, auto_speaker: S.as,
-      tele_speaker: S.ts, climb: S.climb,
-      est_pts: S.as*5 + S.ts*2 + (S.climb==='hang'?3:S.climb==='park'?1:0),
+      auto_speaker: asCount,
       ts: Date.now()
     };
 
-    try {
-      await addDoc(scoutCol, data);
-      toast("✅ 成功存入雲端");
-      resetForm();
-      btn.disabled = false; // 讓按鈕恢復可點擊
-      btn.textContent = "儲存至雲端資料庫";
-    } catch(e) {
-      console.error("儲存失敗:", e);
-      toast("❌ 錯誤: " + e.message);
-    } finally {
+    // 關鍵：直接丟出去，不 await
+    addDoc(scoutCol, data).then(() => console.log("Sent")).catch(e => console.error(e));
+
+    // 強制重置 UI，不讓使用者卡住
+    setTimeout(() => {
+      showToast("✅ 資料已排程上傳");
+      document.getElementById('f-match').value = '';
+      document.getElementById('f-team').value = '';
+      asCount = 0;
+      document.getElementById('as-val').textContent = 0;
       btn.disabled = false;
-      btn.textContent = "儲存至雲端資料庫";
-    }
+      btn.textContent = "儲存至雲端";
+    }, 600);
   };
 
-  function resetForm() {
-    document.getElementById('f-match').value = '';
-    document.getElementById('f-team').value = '';
-    S = { as:0, ts:0, leave:null, climb:'none' };
-    updateVal('as'); updateVal('ts'); renderTogs();
-  }
-
-  window.showSection = (name) => {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
-    document.getElementById('sec-'+name).classList.add('visible');
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('tab-'+name).classList.add('active');
+  // 分頁切換
+  document.getElementById('tab-scout').onclick = () => {
+    document.getElementById('sec-scout').className = 'section visible';
+    document.getElementById('sec-data').className = 'section';
+    document.getElementById('tab-scout').className = 'tab active';
+    document.getElementById('tab-data').className = 'tab';
   };
-
-  document.getElementById('tab-scout').onclick = () => showSection('scout');
-  document.getElementById('tab-data').onclick = () => showSection('data');
-
-  function renderData() {
-    const list = document.getElementById('data-list');
-    if(!all_recs.length) { list.innerHTML = '<div style="text-align:center;padding:40px;color:#5a5a7a;">雲端尚無資料</div>'; return; }
-    list.innerHTML = all_recs.map(r => `
-      <div class="match-card">
-        <div>
-          <div style="font-weight:700;">Team ${r.team} | Match ${r.match}</div>
-          <div style="font-size:12px;color:#9090b0;">${r.scout} · ${r.alliance}</div>
-        </div>
-        <div class="match-score">${r.est_pts}</div>
-      </div>
-    `).join('');
-  }
+  document.getElementById('tab-data').onclick = () => {
+    document.getElementById('sec-scout').className = 'section';
+    document.getElementById('sec-data').className = 'section visible';
+    document.getElementById('tab-scout').className = 'tab';
+    document.getElementById('tab-data').className = 'tab active';
+  };
 </script>
 </body>
 </html>
