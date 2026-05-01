@@ -3,122 +3,55 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0d0d1a">
-<title>FRC 8585 Scout - Full Version</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<title>FRC 8585 - Multi-Device Sync</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --red: #c8102e;
-    --red-dark: #9e0d24;
-    --red-light: #ff3352;
-    --navy: #0d0d1a;
-    --navy2: #151528;
-    --navy3: #1e1e38;
-    --navy4: #272748;
-    --text: #f0f0f8;
-    --text2: #9090b0;
-    --text3: #5a5a7a;
-    --border: rgba(255,255,255,0.08);
-    --border2: rgba(255,255,255,0.14);
-    --radius: 14px;
-    --radius-sm: 9px;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  html, body { height: 100%; overflow: hidden; background: var(--navy); color: var(--text); font-family: 'Barlow', sans-serif; }
-
-  #app { display: flex; flex-direction: column; height: 100dvh; }
-  .header { background: var(--navy2); border-bottom: 1px solid var(--border); padding: 0 16px; height: 56px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
-  .team-chip { background: var(--red); color: #fff; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; font-weight: 700; padding: 4px 10px; border-radius: 7px; }
-  .header-title { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); }
-  .header-count { font-size: 12px; color: var(--text3); background: var(--navy3); padding: 4px 9px; border-radius: 20px; border: 1px solid var(--border); }
-
-  .main { flex: 1; overflow-y: auto; padding: 12px 12px 80px; }
-  .card { background: var(--navy2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; }
-  .field-label { font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 6px; text-transform: uppercase; }
-  
-  input, select {
-    width: 100%; background: var(--navy3); border: 1px solid var(--border); color: var(--text);
-    border-radius: var(--radius-sm); font-size: 15px; padding: 11px 13px; outline: none; margin-bottom: 10px;
-  }
-
-  .counter-row { display: flex; align-items: center; background: var(--navy3); border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 10px; }
-  .cnt-btn { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--text2); cursor: pointer; }
-  .cnt-val { flex: 1; text-align: center; font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; }
-
-  .submit-btn { width: 100%; padding: 16px; background: var(--red); color: #fff; border: none; border-radius: var(--radius); font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
-  .submit-btn:disabled { background: var(--navy4); opacity: 0.6; }
-
-  .tabs { height: 64px; background: var(--navy2); border-top: 1px solid var(--border); display: flex; }
-  .tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text3); font-size: 10px; font-weight: 600; }
-  .tab.active { color: var(--red-light); }
-
+  :root { --red: #c8102e; --navy: #0d0d1a; --navy2: #151528; --text: #f0f0f8; --border: rgba(255,255,255,0.1); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--navy); color: var(--text); font-family: 'Barlow', sans-serif; height: 100dvh; display: flex; flex-direction: column; }
+  .header { background: var(--navy2); padding: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; }
+  .main { flex: 1; overflow-y: auto; padding: 15px; }
+  .card { background: var(--navy2); padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--border); }
+  input { width: 100%; padding: 12px; background: #1e1e38; color: white; border: 1px solid var(--border); border-radius: 8px; margin: 8px 0; }
+  .btn { width: 100%; padding: 15px; background: var(--red); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+  .data-item { background: #232343; padding: 12px; border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--red); text-align: left; }
+  .tabs { display: flex; background: var(--navy2); border-top: 1px solid var(--border); }
+  .tab { flex: 1; padding: 15px; text-align: center; cursor: pointer; color: #5a5a7a; }
+  .tab.active { color: var(--red); font-weight: bold; }
   .section { display: none; }
   .section.visible { display: block; }
-  .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: var(--navy3); color: var(--text); padding: 10px 20px; border-radius: 30px; opacity: 0; transition: 0.3s; z-index: 100; }
-  .toast.show { opacity: 1; }
 </style>
 </head>
 <body>
 
-<div id="app">
-  <div class="header">
-    <div class="header-brand">
-      <span class="team-chip">8585</span>
-      <span class="header-title">FRC SCOUT</span>
-    </div>
-    <div class="header-count" id="hdr-count">偵測連線中...</div>
-  </div>
+<div class="header">
+  <div style="font-weight:bold;">FRC 8585 CLOUD</div>
+  <div id="hdr-count" style="font-size: 12px; color: #9090b0;">同步中...</div>
+</div>
 
-  <div class="main">
-    <div class="section visible" id="sec-scout">
-      <div class="card">
-        <div class="field-label">場次 Match #</div>
-        <input type="number" id="f-match" inputmode="numeric">
-        <div class="field-label">隊伍 Team #</div>
-        <input type="number" id="f-team" inputmode="numeric">
-        <div class="field-label">Scout 姓名</div>
-        <input type="text" id="f-scout">
-      </div>
-
-      <div class="card">
-        <div class="field-label">Speaker 進球 (Auto)</div>
-        <div class="counter-row">
-          <div class="cnt-btn" id="as-minus">−</div>
-          <div class="cnt-val" id="as-val">0</div>
-          <div class="cnt-btn" id="as-plus">+</div>
-        </div>
-      </div>
-
-      <button class="submit-btn" id="btn-submit">儲存至雲端</button>
-    </div>
-
-    <div class="section" id="sec-data">
-      <div id="data-list" style="padding: 10px; text-align: center; color: var(--text3);">尚未同步資料</div>
+<div class="main">
+  <div class="section visible" id="sec-scout">
+    <div class="card">
+      <input type="number" id="f-match" placeholder="場次 Match #" inputmode="numeric">
+      <input type="number" id="f-team" placeholder="隊伍 Team #" inputmode="numeric">
+      <input type="text" id="f-scout" placeholder="Scouter 姓名">
+      <button class="btn" id="btn-submit">儲存並共享資料</button>
     </div>
   </div>
 
-  <div class="tabs">
-    <div class="tab active" id="tab-scout">📋 填寫</div>
-    <div class="tab" id="tab-data">📦 資料</div>
+  <div class="section" id="sec-data">
+    <div id="data-list">正在從雲端捉取最新數據...</div>
   </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<div class="tabs">
+  <div class="tab active" id="tab-scout">📝 填寫</div>
+  <div class="tab" id="tab-data">📦 數據總覽</div>
+</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { 
-    initializeFirestore, 
-    collection, 
-    addDoc, 
-    onSnapshot, 
-    query, 
-    orderBy,
-    enableIndexedDbPersistence 
-  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { initializeFirestore, collection, addDoc, onSnapshot, query, orderBy, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAiBIbo-NFFl8dsZh4_vtAg1HvHbxU3Tis",
@@ -130,78 +63,62 @@
   };
 
   const app = initializeApp(firebaseConfig);
-  const db = initializeFirestore(app, { experimentalForceLongPolling: true }, "(default)");
+  const db = initializeFirestore(app, { experimentalForceLongPolling: true });
 
-  // 啟動離線持久化（非常重要：解決網路卡死）
-  enableIndexedDbPersistence(db).catch((err) => console.log("Persistence failed:", err.code));
+  // 啟用離線快取，確保網路不穩也能存
+  enableIndexedDbPersistence(db).catch(() => {});
 
   const scoutCol = collection(db, "match_results");
-  let asCount = 0;
 
-  // UI 控制
-  const showToast = (msg) => {
-    const t = document.getElementById('toast');
-    t.textContent = msg; t.className = 'toast show';
-    setTimeout(() => t.className = 'toast', 2000);
-  };
-
-  document.getElementById('as-plus').onclick = () => { asCount++; document.getElementById('as-val').textContent = asCount; };
-  document.getElementById('as-minus').onclick = () => { asCount = Math.max(0, asCount-1); document.getElementById('as-val').textContent = asCount; };
-
-  // 監聽雲端數據
+  // 【核心：即時共享監聽】
+  // 當任何一台手機上傳資料，所有人的畫面都會被這個函數觸發更新
   onSnapshot(query(scoutCol, orderBy("ts", "desc")), (snap) => {
-    document.getElementById('hdr-count').textContent = snap.size + ' 筆雲端數據';
+    document.getElementById('hdr-count').textContent = `雲端共 ${snap.size} 筆`;
     const list = document.getElementById('data-list');
+    
     if (snap.empty) {
-      list.innerHTML = "雲端目前無資料";
-    } else {
-      list.innerHTML = snap.docs.map(doc => {
-        const d = doc.data();
-        return `<div style="background:var(--navy2); margin-bottom:8px; padding:10px; border-radius:8px; text-align:left; border:1px solid var(--border);">
-          <strong>Team ${d.team}</strong> (Match ${d.match})<br>
-          <small style="color:var(--text3)">Scout: ${d.scout} | Auto: ${d.auto_speaker}</small>
-        </div>`;
-      }).join('');
+      list.innerHTML = "目前尚無資料，請開始填寫。";
+      return;
     }
+
+    list.innerHTML = snap.docs.map(doc => {
+      const d = doc.data();
+      return `<div class="data-item">
+        <strong>Match ${d.match} - Team ${d.team}</strong><br>
+        <small style="color:#aaa;">Scout: ${d.scout} | 建立時間: ${new Date(d.ts).toLocaleTimeString()}</small>
+      </div>`;
+    }).join('');
   }, (err) => {
-    document.getElementById('hdr-count').textContent = "連線受阻";
-    console.error(err);
+    console.error("讀取失敗：", err);
+    document.getElementById('data-list').innerHTML = "讀取權限不足，請檢查 Firebase Rules";
   });
 
-  // 提交邏輯（核心修正：非同步不等待）
+  // 上傳邏輯
   document.getElementById('btn-submit').onclick = function() {
     const m = document.getElementById('f-match').value;
     const t = document.getElementById('f-team').value;
-    if(!m || !t) return showToast("請填寫場次與隊伍");
+    if(!m || !t) return alert("請填寫必填欄位");
 
-    const btn = this;
-    btn.disabled = true;
-    btn.textContent = "傳送中...";
+    this.disabled = true;
+    this.textContent = "發送至雲端...";
 
-    const data = {
+    addDoc(scoutCol, {
       match: Number(m),
       team: Number(t),
-      scout: document.getElementById('f-scout').value || 'Anonymous',
-      auto_speaker: asCount,
+      scout: document.getElementById('f-scout').value || '匿名',
       ts: Date.now()
-    };
+    });
 
-    // 關鍵：直接丟出去，不 await
-    addDoc(scoutCol, data).then(() => console.log("Sent")).catch(e => console.error(e));
-
-    // 強制重置 UI，不讓使用者卡住
     setTimeout(() => {
-      showToast("✅ 資料已排程上傳");
-      document.getElementById('f-match').value = '';
-      document.getElementById('f-team').value = '';
-      asCount = 0;
-      document.getElementById('as-val').textContent = 0;
-      btn.disabled = false;
-      btn.textContent = "儲存至雲端";
-    }, 600);
+      alert("✅ 資料已同步至雲端");
+      document.getElementById('f-match').value = "";
+      document.getElementById('f-team').value = "";
+      this.disabled = false;
+      this.textContent = "儲存並共享資料";
+    }, 500);
   };
 
-  // 分頁切換
+  // 簡易分頁切換
   document.getElementById('tab-scout').onclick = () => {
     document.getElementById('sec-scout').className = 'section visible';
     document.getElementById('sec-data').className = 'section';
