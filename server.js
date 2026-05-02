@@ -5,6 +5,10 @@ const cors = require('cors');
 const app = express();
 app.use(express.json()); // 讓伺服器能解析手機傳來的 JSON 資料
 app.use(cors());         // 允許不同裝置（手機/電腦）連線
+app.use((req, res, next) => {
+  res.setHeader('ngrok-skip-browser-warning', 'true');
+  next();
+});
 
 // ----------------------------------------------------
 // 1. 連接 MongoDB (請把下方的 <password> 換成你設定的資料庫密碼)
