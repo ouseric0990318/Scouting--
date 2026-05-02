@@ -33,12 +33,39 @@ mongoose.connect(mongoURI)
 // ----------------------------------------------------
 const scoutSchema = new mongoose.Schema({
   match: Number,
-  team: Number,     
+  team: Number,
   scout: String,
+  alliance: String,
+  
+  // Auto 階段
+  auto_leave: String,
+  auto_fuel: Number,
+  auto_tower_l1: String,
+  
+  // Teleop 階段
+  tele_fuel: Number,
+  hub_active_shifts: Number,
+  defense: Number,
+  obstacle: Number,
+  
+  // Endgame 階段
+  tower_level: Number,
+  tower_stability: Number,
+  broke: String,
+  
+  // Meta & Derived
+  rating: Number,
+  notes: String,
+  est_pts: Number,
+  total_fuel: Number,
+  tower_pts: Number,
+  rp_energized: Boolean,
+  rp_supercharged: Boolean,
+  rp_traversal: Boolean,
+  
   ts: { type: Number, default: Date.now }
 });
 const Scout = mongoose.model('Scout', scoutSchema);
-
 // ----------------------------------------------------
 // 3. 設定路由 (Routes)
 // ----------------------------------------------------
