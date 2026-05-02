@@ -3,8 +3,17 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
-app.use(express.json()); // 讓伺服器能解析手機傳來的 JSON 資料
-app.use(cors());         // 允許不同裝置（手機/電腦）連線
+
+// 1. 強化 CORS 設定，明確允許所有來源與必要的 Header
+app.use(cors({
+  origin: '*', 
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'ngrok-skip-browser-warning']
+}));
+
+app.use(express.json());
+
+// 2. 確保這段 Middleware 在所有路由 (app.get/post) 之前執行
 app.use((req, res, next) => {
   res.setHeader('ngrok-skip-browser-warning', 'true');
   next();
