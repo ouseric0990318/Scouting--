@@ -55,7 +55,11 @@
   // 1. 從伺服器抓取資料
   async function refreshData() {
     try {
-      const res = await fetch(API_URL);
+      const res = await fetch(API_URL, {
+        headers: {
+          'ngrok-skip-browser-warning': 'true'
+      }
+    });
       if (!res.ok) throw new Error("伺服器回應錯誤");
       const data = await res.json();
       
