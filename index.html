@@ -215,9 +215,9 @@ hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
           <div class="sp-label">估計得分</div>
           <div class="sp-breakdown" id="sp-bd">—</div>
           <div class="rp-chips">
-            <div class="rp-chip energized"    id="rp-e">⚡ ENERGIZED</div>
-            <div class="rp-chip supercharged" id="rp-s">🔥 SUPERCHARGED</div>
-            <div class="rp-chip traversal"    id="rp-t">🗼 TRAVERSAL</div>
+            <div class="rp-chip energized"    id="rp-e">⚡ 很強</div>
+            <div class="rp-chip supercharged" id="rp-s">🔥 超強</div>
+            <div class="rp-chip traversal"    id="rp-t">🗼 超他媽強</div>
           </div>
         </div>
         <div class="sp-score" id="sp-score">0</div>
@@ -227,8 +227,8 @@ hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
       <div class="card">
         <div class="card-hd"><div class="ptag info">基本資訊</div></div>
         <div class="igrid">
-          <div class="fl"><div class="lbl">場次 Match</div><input type="number" id="f-match" placeholder="12" inputmode="numeric" oninput="recalc()"></div>
-          <div class="fl"><div class="lbl">隊伍 Team</div><input type="number" id="f-team" placeholder="5846" inputmode="numeric"></div>
+          <div class="fl"><div class="lbl">場次 Match</div><input type="number" id="f-match" placeholder="67" inputmode="numeric" oninput="recalc()"></div>
+          <div class="fl"><div class="lbl">隊伍 Team</div><input type="number" id="f-team" placeholder="8585" inputmode="numeric"></div>
           <div class="fl"><div class="lbl">Scout 姓名</div><input type="text" id="f-scout" placeholder="你的名字"></div>
           <div class="fl"><div class="lbl">聯盟</div>
             <select id="f-alliance">
@@ -243,7 +243,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
       <div class="card">
         <div class="card-hd">
           <div class="ptag auto">Auto 自動 <span style="font-size:10px;font-weight:400;">(20秒)</span></div>
-          <div class="ptag-pts">Fuel×1 | Tower L1×15</div>
+          <div class="ptag-pts">Fuel×5 | Tower L1×15</div>
         </div>
         <div class="fl">
           <div class="lbl">離開起始區 <span>Leave Starting Zone</span></div>
@@ -253,7 +253,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
           </div>
         </div>
         <div class="fl">
-          <div class="lbl">Fuel 入 Hub <span>每個 +1分</span></div>
+          <div class="lbl">Fuel 入 Hub <span>每個 +1分(以5顆為一次增加量)</span></div>
           <div class="ctr fuel">
             <div class="cb m" onclick="adj('af',-1)">-</div>
             <div class="cv" id="af">0</div>
@@ -261,7 +261,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
           </div>
         </div>
         <div class="fl">
-          <div class="lbl">Tower Level 1 <span>Auto 爬上 +15分（全場最多2台）</span></div>
+          <div class="lbl">Tower Level 1 <span>Auto 爬上 +15分</span></div>
           <div class="tg">
             <div class="t" id="atow-y" onclick="yn('atow','y')">是 +15</div>
             <div class="t" id="atow-n" onclick="yn('atow','n')">否</div>
@@ -284,7 +284,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
           </div>
         </div>
         <div class="fl">
-          <div class="lbl">Hub 活躍率 <span>大概幾個 Shift 是 Active？</span></div>
+          <div class="lbl">Hub 活躍率 <span>Hub啟用時進球效率</span></div>
           <div class="tg">
             <div class="t on" id="ha-1" onclick="setHA(1)">1/4</div>
             <div class="t"    id="ha-2" onclick="setHA(2)">2/4</div>
@@ -302,7 +302,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
           </div>
         </div>
         <div class="fl">
-          <div class="lbl">穿越障礙 <span>Bump/Trench crossing skill</span></div>
+          <div class="lbl">進攻表現 <span>Bump/Trench crossing skill</span></div>
           <div class="tg">
             <div class="t on" id="obs-0" onclick="setObs(0)">無</div>
             <div class="t"    id="obs-1" onclick="setObs(1)">弱</div>
